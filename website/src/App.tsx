@@ -38,9 +38,9 @@ function App() {
     if (!release || !release.assets) return '#';
     const url = release.assets.find(a => a.name.toLowerCase().includes(keyword.toLowerCase()))?.browser_download_url || '#';
     
-    // Use ghproxy mirror for Chinese users to accelerate downloads
+    // Use ghproxy.net mirror which is more stable and has valid SSL
     if (url !== '#' && lang === 'zh') {
-      return `https://mirror.ghproxy.com/${url}`;
+      return `https://ghproxy.net/${url}`;
     }
     return url;
   };
