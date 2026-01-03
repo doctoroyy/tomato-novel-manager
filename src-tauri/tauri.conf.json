@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "identifier": "com.tomato.novel.manager",
   "build": {
-    "beforeDevCommand": "pnpm run dev",
+    "beforeDevCommand": "pnpm tauri icon app-icon.svg && pnpm run dev",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "pnpm run build",
+    "beforeBuildCommand": "pnpm tauri icon app-icon.svg && pnpm run build",
     "frontendDist": "../dist"
   },
   "app": {
