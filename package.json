@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "build:website": "cd website && npm install && npm run build",
+    "deploy:website": "pnpm build:website && wrangler pages deploy"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
