@@ -1,0 +1,40 @@
+[package]
+name = "tomato-novel-manager"
+version = "0.1.0"
+description = "Tomato Novel Manager - A modern novel downloader"
+authors = ["you"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "tomato_novel_manager_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# HTTP 客户端
+reqwest = { version = "0.12", features = ["json", "rustls-tls"] }
+
+# 异步运行时
+tokio = { version = "1", features = ["full"] }
+
+# EPUB 生成
+epub-builder = "0.7"
+
+# 正则表达式
+regex = "1"
+
+# 错误处理
+thiserror = "2"
+anyhow = "1"
+
