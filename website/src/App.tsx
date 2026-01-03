@@ -34,9 +34,16 @@ function App() {
       .catch(console.error);
   }, []);
 
-  const getDownloadLink = (keyword: string) => {
+  const getDownloadLink = (keywords: string[]) => {
     if (!release || !release.assets) return '#';
-    const url = release.assets.find(a => a.name.toLowerCase().includes(keyword.toLowerCase()))?.browser_download_url || '#';
+    
+    // Find asset that matches ALL keywords
+    const url = release.assets.find(a => {
+      const name = a.name.toLowerCase();
+      // Special case for macOS universality: if we ask for x64 but there's a universe bin, we might accept it (optional logic)
+      // For now, strict matching
+      return keywords.every(k => name.includes(k.toLowerCase()));
+    })?.browser_download_url || '#';
     
     // Use ghproxy.net mirror which is more stable and has valid SSL
     if (url !== '#' && lang === 'zh') {
@@ -60,7 +67,7 @@ function App() {
       },
       platforms: {
         win: 'Windows 安装包',
-        mac: 'macOS (Apple Silicon/Intel)',
+        mac: 'macOS (Intel/Silicon)',
         linux: 'Linux (Deb/AppImage)',
       },
       footer: '基于 Tauri v2 构建 • MIT 开源协议'
@@ -110,13 +117,16 @@ function App() {
               <span className="card-icon">🪟</span>
               <h3>Windows</h3>
               <p>{t.platforms.win}</p>
-              <a href={getDownloadLink('.msi')} className="btn">
-                 {t.download} .msi
-              </a>
-              <div style={{marginTop: '0.5rem'}}>
-                <a href={getDownloadLink('.exe')} style={{color: 'var(--primary)', fontSize: '0.8rem'}}>
-                  Or .exe
+              <div className="btn-group">
+                <a href={getDownloadLink(['.msi', 'x64'])} className="btn">
+                   x64 .msi
                 </a>
+                <a href={getDownloadLink(['.exe', 'x64'])} className="btn secondary">
+                   x64 .exe
+                </a>
+              </div>
+              <div style={{marginTop: '0.5rem'}}>
+                 {/* Fallback or other archs could go here */}
               </div>
             </div>
 
@@ -125,9 +135,14 @@ function App() {
               <span className="card-icon">🍎</span>
               <h3>macOS</h3>
               <p>{t.platforms.mac}</p>
-              <a href={getDownloadLink('.dmg')} className="btn">
-                 {t.download} .dmg
-              </a>
+              <div className="btn-group">
+                <a href={getDownloadLink(['.dmg', 'aarch64'])} className="btn">
+                   Apple Silicon
+                </a>
+                <a href={getDownloadLink(['.dmg', 'x64'])} className="btn secondary">
+                   Intel (x64)
+                </a>
+              </div>
               <div style={{marginTop: '1rem', fontSize: '0.8rem', opacity: 0.8, textAlign: 'left', background: 'rgba(0,0,0,0.2)', padding: '8px', borderRadius: '4px'}}>
                 <div style={{fontWeight: 'bold', marginBottom: '4px'}}>⚠️ App is damaged?</div>
                 <div>Run in Terminal:</div>
@@ -142,9 +157,14 @@ function App() {
               <span className="card-icon">🐧</span>
               <h3>Linux</h3>
               <p>{t.platforms.linux}</p>
-              <a href={getDownloadLink('.deb')} className="btn secondary">
-                 {t.download} .deb
-              </a>
+               <div className="btn-group">
+                <a href={getDownloadLink(['.deb', 'amd64'])} className="btn">
+                   .deb
+                </a>
+                <a href={getDownloadLink(['.AppImage', 'amd64'])} className="btn secondary">
+                   .AppImage
+                </a>
+              </div>
             </div>
           </div>
           
