@@ -1,29 +1,35 @@
 :root {
   --bg-dark: #0f172a;
-  --primary: #ef4444; /* Tomato Red */
-  --primary-glow: rgba(239, 68, 68, 0.5);
-  --secondary: #10b981; /* Leaf Green */
-  --glass: rgba(255, 255, 255, 0.05);
-  --text: #f8fafc;
+  --primary: #ef4444;
+  --primary-hover: #dc2626;
+  --secondary: #10b981;
+  --text-main: #f8fafc;
   --text-muted: #94a3b8;
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --card-width: 300px;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
   background-color: var(--bg-dark);
-  color: var(--text);
+  color: var(--text-main);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(circle at 15% 50%, rgba(239, 68, 68, 0.08), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.08), transparent 25%);
+    radial-gradient(circle at 20% 20%, rgba(239, 68, 68, 0.15), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.15), transparent 40%);
+}
+
+#root {
+  width: 100%;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 }
 
 /* Navbar */
@@ -31,150 +37,160 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 0;
-  backdrop-filter: blur(10px);
+  height: 80px;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 12px;
   font-size: 1.25rem;
   font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .logo img {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
 }
 
 .lang-switch {
-  background: transparent;
-  border: 1px solid var(--glass);
-  color: var(--text);
-  padding: 0.5rem 1rem;
-  border-radius: 999px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  padding: 6px 16px;
+  border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s;
+  font-size: 0.9rem;
 }
 
 .lang-switch:hover {
-  background: var(--glass);
+  background: rgba(255,255,255,0.1);
 }
 
 /* Hero Section */
 .hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  padding: 6rem 0;
+  padding: 5rem 0;
   position: relative;
 }
 
 .hero h1 {
-  font-size: 4rem;
-  line-height: 1.1;
-  margin-bottom: 1.5rem;
-  background: linear-gradient(to right, #fff, #cbd5e1);
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 1.5rem;
+  background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero p {
   font-size: 1.25rem;
   color: var(--text-muted);
   max-width: 600px;
-  margin: 0 auto 3rem;
+  margin: 0 0 3rem;
+  line-height: 1.6;
 }
 
-.hero-gradient {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-  opacity: 0.15;
-  z-index: -1;
-  pointer-events: none;
-}
-
-/* Download Cards */
+/* Download Cards Grid */
 .download-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  display: flex;
+  justify-content: center;
   gap: 2rem;
-  margin-top: 4rem;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 2rem;
 }
 
 .card {
-  background: var(--glass);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: var(--card-width);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
   padding: 2rem;
-  border-radius: 1rem;
-  text-align: left;
+  text-align: center;
   transition: transform 0.2s, box-shadow 0.2s;
-  backdrop-filter: blur(5px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255,255,255,0.2);
 }
 
 .card-icon {
-  font-size: 2rem;
+  font-size: 3rem;
   margin-bottom: 1rem;
-  display: block;
+  display: inline-block;
 }
 
 .card h3 {
+  margin: 0.5rem 0;
   font-size: 1.5rem;
-  margin: 0 0 0.5rem;
 }
 
 .card p {
   color: var(--text-muted);
-  margin-bottom: 1.5rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
 }
 
 .btn {
   display: inline-flex;
+  justify-content: center;
   align-items: center;
-  gap: 0.5rem;
-  background: var(--primary);
+  background-color: var(--primary);
   color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
-  transition: all 0.2s;
   border: none;
   cursor: pointer;
-  width: 100%;
-  justify-content: center;
-  box-sizing: border-box;
+  transition: background 0.2s;
 }
 
 .btn:hover {
-  background: #dc2626;
-  box-shadow: 0 0 15px var(--primary-glow);
+  background-color: var(--primary-hover);
 }
 
 .btn.secondary {
-  background: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255,255,255,0.1);
+  margin-top: 1rem;
 }
 
 .btn.secondary:hover {
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: none;
+  background-color: rgba(255,255,255,0.15);
 }
 
-/* Features */
+.small-link {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.small-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* Features Section */
 .features {
   padding: 6rem 0;
-  border-top: 1px solid var(--glass);
+  margin-top: 4rem;
+  border-top: 1px solid var(--glass-border);
 }
 
 .feature-grid {
@@ -183,30 +199,56 @@ body {
   gap: 3rem;
 }
 
+.feature-item {
+  text-align: left;
+}
+
 .feature-item h3 {
+  font-size: 1.25rem;
   color: var(--secondary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
+.feature-item p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
 /* Footer */
 footer {
   text-align: center;
-  padding: 4rem 0;
+  padding: 3rem 0;
   color: var(--text-muted);
   font-size: 0.9rem;
-  border-top: 1px solid var(--glass);
+  border-top: 1px solid var(--glass-border);
 }
 
 footer a {
-  color: var(--text);
+  color: var(--text-main);
   text-decoration: none;
+  opacity: 0.8;
+}
+
+footer a:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2.5rem;
+  }
+  
+  .download-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 320px;
   }
 }

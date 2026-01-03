@@ -19,14 +19,24 @@ function App() {
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
 
   useEffect(() => {
-    fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest`)
-      .then(res => res.json())
-      .then(data => setRelease(data))
+    // Fetch list of releases instead of just latest to be safer
+    fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases`)
+      .then(res => {
+        if (!res.ok) throw new Error('Network response was not ok');
+        return res.json();
+      })
+      .then(data => {
+        // Data is an array of releases, take the first one (latest)
+        if (Array.isArray(data) && data.length > 0) {
+          setRelease(data[0]);
+        }
+      })
       .catch(console.error);
   }, []);
 
   const getDownloadLink = (keyword: string) => {
-    return release?.assets.find(a => a.name.toLowerCase().includes(keyword.toLowerCase()))?.browser_download_url || '#';
+    if (!release || !release.assets) return '#';
+    return release.assets.find(a => a.name.toLowerCase().includes(keyword.toLowerCase()))?.browser_download_url || '#';
   };
 
   const t = {
