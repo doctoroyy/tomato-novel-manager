@@ -49,6 +49,9 @@ jobs:
       - name: install frontend dependencies
         run: npm install -g pnpm && pnpm install
 
+      - name: generate icons
+        run: pnpm tauri icon app-icon.svg
+
       - name: build tauri app
         uses: tauri-apps/tauri-action@v0
         env:
