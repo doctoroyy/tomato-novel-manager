@@ -35,7 +35,7 @@ A modern, cross-platform desktop application for downloading novels from Fanqie 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/tomato-novel-manager.git
+   git clone https://github.com/doctoroyy/tomato-novel-manager.git
    cd tomato-novel-manager
    ```
 
@@ -98,7 +98,7 @@ The output will be in `src-tauri/target/release/bundle`.
 
 1. 克隆仓库：
    ```bash
-   git clone https://github.com/yourusername/tomato-novel-manager.git
+   git clone https://github.com/doctoroyy/tomato-novel-manager.git
    cd tomato-novel-manager
    ```
 
