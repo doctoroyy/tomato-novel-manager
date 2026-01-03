@@ -128,6 +128,13 @@ function App() {
               <a href={getDownloadLink('.dmg')} className="btn">
                  {t.download} .dmg
               </a>
+              <div style={{marginTop: '1rem', fontSize: '0.8rem', opacity: 0.8, textAlign: 'left', background: 'rgba(0,0,0,0.2)', padding: '8px', borderRadius: '4px'}}>
+                <div style={{fontWeight: 'bold', marginBottom: '4px'}}>⚠️ App is damaged?</div>
+                <div>Run in Terminal:</div>
+                <code style={{display: 'block', background: '#000', padding: '4px', borderRadius: '2px', marginTop: '4px', userSelect: 'all'}}>
+                  sudo xattr -cr /Applications/"Tomato Novel Manager.app"
+                </code>
+              </div>
             </div>
 
             {/* Linux */}
