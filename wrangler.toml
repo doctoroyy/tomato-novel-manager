@@ -2,6 +2,5 @@ name = "tomato-novel-manager"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "website/dist"
 
-# Optional: Build command hint for reference (Wrangler CLI doesn't run this automatically for deploys, 
-# but it's good documentation for the dashboard setup)
-# command = "cd website && npm install && npm run build"
+# Build command for Cloudflare Pages (Git Integration)
+command = "pnpm build:website"
