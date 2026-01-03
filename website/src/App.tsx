@@ -36,7 +36,13 @@ function App() {
 
   const getDownloadLink = (keyword: string) => {
     if (!release || !release.assets) return '#';
-    return release.assets.find(a => a.name.toLowerCase().includes(keyword.toLowerCase()))?.browser_download_url || '#';
+    const url = release.assets.find(a => a.name.toLowerCase().includes(keyword.toLowerCase()))?.browser_download_url || '#';
+    
+    // Use ghproxy mirror for Chinese users to accelerate downloads
+    if (url !== '#' && lang === 'zh') {
+      return `https://mirror.ghproxy.com/${url}`;
+    }
+    return url;
   };
 
   const t = {
