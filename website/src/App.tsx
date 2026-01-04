@@ -19,16 +19,22 @@ function App() {
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
 
   useEffect(() => {
-    // Fetch list of releases instead of just latest to be safer
+    // Fetch list of releases and find the first one with assets
     fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases`)
       .then(res => {
         if (!res.ok) throw new Error('Network response was not ok');
         return res.json();
       })
       .then(data => {
-        // Data is an array of releases, take the first one (latest)
         if (Array.isArray(data) && data.length > 0) {
-          setRelease(data[0]);
+          // Find first release that has assets (skip empty releases still building)
+          const releaseWithAssets = data.find(r => r.assets && r.assets.length > 0);
+          if (releaseWithAssets) {
+            setRelease(releaseWithAssets);
+          } else {
+            // Fallback to first release if none have assets
+            setRelease(data[0]);
+          }
         }
       })
       .catch(console.error);
