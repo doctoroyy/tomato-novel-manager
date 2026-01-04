@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { searchBooks, BookInfo, SearchResult } from "../lib/api";
 import "./SearchView.css";
 
@@ -6,11 +6,21 @@ interface SearchViewProps {
   onSelectBook: (book: BookInfo) => void;
 }
 
+const LAST_KEYWORD_KEY = "lastSearchKeyword";
+
 export function SearchView({ onSelectBook }: SearchViewProps) {
   const [keyword, setKeyword] = useState("");
   const [results, setResults] = useState<SearchResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // 加载上次搜索的关键词
+  useEffect(() => {
+    const lastKeyword = localStorage.getItem(LAST_KEYWORD_KEY);
+    if (lastKeyword) {
+      setKeyword(lastKeyword);
+    }
+  }, []);
 
   const handleSearch = async () => {
     if (!keyword.trim()) return;
@@ -21,6 +31,8 @@ export function SearchView({ onSelectBook }: SearchViewProps) {
     try {
       const result = await searchBooks(keyword.trim());
       setResults(result);
+      // 保存搜索关键词到缓存
+      localStorage.setItem(LAST_KEYWORD_KEY, keyword.trim());
     } catch (err) {
       setError(err instanceof Error ? err.message : "搜索失败");
     } finally {
