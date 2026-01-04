@@ -17,7 +17,8 @@
         "height": 800,
         "minWidth": 800,
         "minHeight": 600,
-        "center": true
+        "center": true,
+        "focus": true
       }
     ],
     "security": {
@@ -34,6 +35,11 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
+    "windows": {
+      "certificateThumbprint": null,
+      "digestAlgorithm": "sha256",
+      "timestampUrl": ""
+    },
     "macOS": {
       "entitlements": "./entitlements.plist",
       "exceptionDomain": "",

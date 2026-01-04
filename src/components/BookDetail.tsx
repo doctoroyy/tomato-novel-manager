@@ -70,8 +70,12 @@ export function BookDetail({ book, onBack }: BookDetailProps) {
 
       if (!savePath) return;
 
-      // 获取目录路径
-      const dirPath = savePath.substring(0, savePath.lastIndexOf("/"));
+      // 获取目录路径 (兼容 Windows 和 Unix)
+      const lastSlash = Math.max(
+        savePath.lastIndexOf("/"),
+        savePath.lastIndexOf("\\")
+      );
+      const dirPath = savePath.substring(0, lastSlash);
 
       setDownloading(true);
       setProgress(null);
@@ -85,6 +89,31 @@ export function BookDetail({ book, onBack }: BookDetailProps) {
 
       const downloadResult = await downloadBook(options);
       setResult(downloadResult);
+      
+      // 保存下载历史到缓存
+      if (downloadResult.success) {
+        try {
+          const history = JSON.parse(localStorage.getItem("downloadHistory") || "[]");
+          const newEntry = {
+            book_id: book.book_id,
+            book_name: book.book_name,
+            author: book.author,
+            format,
+            file_path: downloadResult.file_path,
+            timestamp: new Date().toISOString(),
+          };
+          history.unshift(newEntry);
+          // 只保留最近 50 条记录
+          if (history.length > 50) {
+            history.pop();
+          }
+          localStorage.setItem("downloadHistory", JSON.stringify(history));
+        } catch (e) {
+          // 如果缓存数据损坏，重置为空数组
+          console.error("Failed to save download history:", e);
+          localStorage.setItem("downloadHistory", "[]");
+        }
+      }
     } catch (err) {
       setResult({
         success: false,
