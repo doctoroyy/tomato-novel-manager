@@ -59,8 +59,8 @@ jobs:
           # Note: macOS code signing disabled - secrets not configured
           # Users will need to right-click and select "Open" to run the unsigned app
         with:
-          tagName: app-v__VERSION__ 
-          releaseName: "App v__VERSION__"
+          tagName: ${{ github.ref_name }}
+          releaseName: "App ${{ github.ref_name }}"
           releaseBody: "See the assets to download this version and install."
           releaseDraft: false
           prerelease: false
