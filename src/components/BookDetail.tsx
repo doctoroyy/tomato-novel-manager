@@ -92,21 +92,27 @@ export function BookDetail({ book, onBack }: BookDetailProps) {
       
       // 保存下载历史到缓存
       if (downloadResult.success) {
-        const history = JSON.parse(localStorage.getItem("downloadHistory") || "[]");
-        const newEntry = {
-          book_id: book.book_id,
-          book_name: book.book_name,
-          author: book.author,
-          format,
-          file_path: downloadResult.file_path,
-          timestamp: new Date().toISOString(),
-        };
-        history.unshift(newEntry);
-        // 只保留最近 50 条记录
-        if (history.length > 50) {
-          history.pop();
+        try {
+          const history = JSON.parse(localStorage.getItem("downloadHistory") || "[]");
+          const newEntry = {
+            book_id: book.book_id,
+            book_name: book.book_name,
+            author: book.author,
+            format,
+            file_path: downloadResult.file_path,
+            timestamp: new Date().toISOString(),
+          };
+          history.unshift(newEntry);
+          // 只保留最近 50 条记录
+          if (history.length > 50) {
+            history.pop();
+          }
+          localStorage.setItem("downloadHistory", JSON.stringify(history));
+        } catch (e) {
+          // 如果缓存数据损坏，重置为空数组
+          console.error("Failed to save download history:", e);
+          localStorage.setItem("downloadHistory", "[]");
         }
-        localStorage.setItem("downloadHistory", JSON.stringify(history));
       }
     } catch (err) {
       setResult({
