@@ -70,12 +70,8 @@ export function BookDetail({ book, onBack }: BookDetailProps) {
 
       if (!savePath) return;
 
-      // 获取目录路径 (兼容 Windows 和 Unix)
-      const lastSlash = Math.max(
-        savePath.lastIndexOf("/"),
-        savePath.lastIndexOf("\\")
-      );
-      const dirPath = savePath.substring(0, lastSlash);
+      // savePath is the full file path chosen by the user
+      // const dirPath = savePath.substring(0, lastSlash);
 
       setDownloading(true);
       setProgress(null);
@@ -83,7 +79,7 @@ export function BookDetail({ book, onBack }: BookDetailProps) {
 
       const options: DownloadOptions = {
         book_id: book.book_id,
-        save_path: dirPath,
+        save_path: savePath,
         format,
       };
 

@@ -181,11 +181,7 @@ impl Downloader {
         chapters: &[ChapterContent],
         save_path: &str,
     ) -> Result<String> {
-        let filename = sanitize_filename(&format!(
-            "{} 作者：{}.txt",
-            book_info.book_name, book_info.author
-        ));
-        let file_path = Path::new(save_path).join(&filename);
+        let file_path = Path::new(save_path);
 
         let file = File::create(&file_path)?;
         let mut writer = BufWriter::new(file);
@@ -214,11 +210,7 @@ impl Downloader {
         chapters: &[ChapterContent],
         save_path: &str,
     ) -> Result<String> {
-        let filename = sanitize_filename(&format!(
-            "{} 作者：{}.epub",
-            book_info.book_name, book_info.author
-        ));
-        let file_path = Path::new(save_path).join(&filename);
+        let file_path = Path::new(save_path);
 
         let file = File::create(&file_path)?;
         let zip = ZipLibrary::new().map_err(|e| anyhow!("创建 ZIP 库失败: {}", e))?;
@@ -300,12 +292,3 @@ impl Default for Downloader {
     }
 }
 
-/// 清理文件名中的非法字符
-fn sanitize_filename(name: &str) -> String {
-    let illegal_chars = ['\\', '/', ':', '*', '?', '"', '<', '>', '|'];
-    let mut result = name.to_string();
-    for ch in illegal_chars {
-        result = result.replace(ch, "_");
-    }
-    result
-}
